@@ -1,6 +1,5 @@
 openai
 dotenv
 requests
-sqlite3
 glom
 
