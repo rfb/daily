@@ -1,0 +1,11 @@
+on:
+  push:
+  schedule:
+    - cron: "0 3 * * *"
+
+jobs:
+  build:
+    run-on: python:bookworm
+    steps:
+      - run: pip install -r requirements.txt
+      - run: python daily.py
