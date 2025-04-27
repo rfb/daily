@@ -17,5 +17,4 @@ jobs:
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           WEATHERAPI_KEY: ${{ secrets.WEATHERAPI_KEY }}
-          EVENTS_URL: ${{ env.EVENTS_URL }}
 
