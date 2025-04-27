@@ -5,7 +5,7 @@ on:
 
 jobs:
   build:
-    run-on: python:bookworm
+    runs-on: python:bookworm
     steps:
       - run: pip install -r requirements.txt
       - run: python daily.py
