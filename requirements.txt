@@ -2,4 +2,4 @@ openai
 dotenv
 requests
 glom
-
+jinja2
