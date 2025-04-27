@@ -20,6 +20,7 @@ jobs:
           EVENTS_URL: ${{ vars.EVENTS_URL }}
       - name: Save output
         uses: actions/upload-artifact@v4
-        name: output.mp3
-        path: output.mp3
+        with:
+          name: output.mp3
+          path: output.mp3
 
