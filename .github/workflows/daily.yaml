@@ -18,9 +18,16 @@ jobs:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           WEATHERAPI_KEY: ${{ secrets.WEATHERAPI_KEY }}
           EVENTS_URL: ${{ vars.EVENTS_URL }}
+      - name: Setup page contents
+        run: mkdir -p page && mv output.mp3 page
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
       - name: Save output
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-pages-artifact@v4
         with:
-          name: output.mp3
-          path: output.mp3
+          path: page
+      - name: Deploy to pages
+        uses: actions/deploy-pages@v4
+
+
 
