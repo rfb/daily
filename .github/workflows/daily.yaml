@@ -18,4 +18,8 @@ jobs:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           WEATHERAPI_KEY: ${{ secrets.WEATHERAPI_KEY }}
           EVENTS_URL: ${{ vars.EVENTS_URL }}
+      - name: Save output
+        uses: actions/upload-artifact@v4
+        name: output.mp3
+        path: output.mp3
 
