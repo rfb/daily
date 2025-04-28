@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" xmlns:podcast="https://podcastindex.org/namespace/1.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>ShedFM Daily News</title>
+    <author>ShedFM</author>
+    <description>Daily news for Dead Tree Point</description>
+    <pubDate>{{ pubdate.strftime("%a, %d %b %Y %H:%M:%S %z") }}</pubDate>
+    <atom:link>https://rfb.github.io/daily/feed.xml</atom:link>
+    <link>https://rfb.github.io/daily/</link>
+    <language>en-us</language>
+    <itunes:category text="News"/>
+    <itunes:explicit>false</itunes:explicit>
+    <item>
+      <author>ShedFM</author>
+      <title>ShedFM Daily News</title>
+      <pubDate>{{ pubdate.strftime("%a, %d %b %Y %H:%M:%S %z") }}</pubDate>
+      <enclosure url="https://rfb.github.io/daily/output.opus" type="audio/opus" />
+      <description></description>
+    </item>
+  </channel>
+</rss>

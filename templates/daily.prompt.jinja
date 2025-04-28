@@ -26,7 +26,6 @@ Winds up to {{ maxwind }}km/h.
 Community events and notices:
 
 {% for e in events %}
-  {% if e[1] %} Sent in by listener {{ e[1] }} {% endif %}
-  {{ e[0] }}
+{% if e[1] %} Sent in by listener {{ e[1] }} {% endif %}{{ e[0] }}
 {% endfor %}
 

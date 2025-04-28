@@ -1,37 +1,45 @@
-import os, logging
+import os, logging, json
 
 from dotenv import load_dotenv
 from openai import OpenAI
 
 from weather import fetch_weather
 from events import fetch_events
-from prompts import script, voicing
+from prompts import mkprompt, mkvoicing
+from publish import artifact
 
-load_dotenv()
+def main():
+    load_dotenv()
 
-client = OpenAI( api_key=os.environ.get("OPENAI_API_KEY") )
+    client = OpenAI( api_key=os.environ.get("OPENAI_API_KEY") )
 
-report = fetch_weather()
-report = report | { 'events': fetch_events() }
+    report = fetch_weather()
+    report = report | { 'events': fetch_events() }
 
-logging.debug(report)
+    artifact("report.json", json.dumps(report))
 
-script = script(report)
-voicing = voicing(report)
+    prompt = mkprompt(report)
 
-logging.debug(script)
-logging.debug(voicing)
+    artifact("prompt.txt", prompt)
 
-response = client.responses.create(
+    voicing = mkvoicing(report)
+
+    artifact("voicing.txt", voicing)
+
+    response = client.responses.create(
         model="gpt-4o",
-        input=script)
+        input=prompt)
 
-script = response.output_text
+    script = response.output_text
 
-with client.audio.speech.with_streaming_response.create(
-    model="gpt-4o-mini-tts",
-    voice="echo",
-    instructions=voicing,
-    input=script) as response:
-    response.stream_to_file("output.mp3")
+    artifact("script.txt", script)
 
+    with client.audio.speech.with_streaming_response.create(
+        model="gpt-4o-mini-tts",
+        voice="echo",
+        instructions=voicing,
+        response_format="opus",
+        input=script) as response:
+        response.stream_to_file("output.opus")
+
+main()

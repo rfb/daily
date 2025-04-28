@@ -1,3 +1,7 @@
 /__pycache__
-.env.local
-output.mp3
+.env
+output.opus
+prompt.txt
+script.txt
+voicing.txt
+report.json

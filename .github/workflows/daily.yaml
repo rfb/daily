@@ -22,8 +22,11 @@ jobs:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           WEATHERAPI_KEY: ${{ secrets.WEATHERAPI_KEY }}
           EVENTS_URL: ${{ vars.EVENTS_URL }}
+      - run: python publish.py
+        env:
+          TZ: America/Vancouver
       - name: Setup page contents
-        run: mkdir -p page && mv output.mp3 page
+        run: mkdir -p page && mv index.html feed.xml output.opus page
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Save output

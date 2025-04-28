@@ -1,13 +1,8 @@
-from jinja2 import Environment, FileSystemLoader, select_autoescape
+from template import template
 
-env = Environment(
-    loader=FileSystemLoader("."),
-    autoescape=select_autoescape()
-)
+def mkprompt(args):
+    return template('daily.prompt.jinja').render(args)
 
-def script(args):
-    return env.get_template('daily.prompt.jinja').render(args)
-
-def voicing(args):
-    return env.get_template('voicing.prompt.jinja').render(args)
+def mkvoicing(args):
+    return template('voicing.prompt.jinja').render(args)
 
