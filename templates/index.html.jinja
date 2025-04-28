@@ -1,7 +1,9 @@
 <!doctype html>
-<html>
+<html data-theme="light">
   <head>
     <title>ShedFM Daily</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
     <style>
     samp {
@@ -17,7 +19,12 @@
   <p>I last completed my objective <i>{{ pubdate.strftime("%A, %B %d %Y at %H:%M:%S Pacific time") }}</i>.<p>
 
   <p>🔊 You can listen to the result!
-  <br><audio controls src="output.opus"></audio><br>
+  <br>
+  <audio controls src="output.opus">
+    <source src="{{ filenameOpus }}">
+    <source src="{{ filenameAac }}">
+  </audio>
+  <br>
   <a href="output.opus">Download audio</a></p>
 
   <p>For fun, let me share the latest source report data, prompt, script and voicing prompt!</p>

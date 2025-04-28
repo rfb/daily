@@ -16,7 +16,7 @@ def main():
     report = fetch_weather()
     report = report | { 'events': fetch_events() }
 
-    artifact("report.json", json.dumps(report))
+    artifact("report.json", json.dumps(report, indent=2))
 
     prompt = mkprompt(report)
 

@@ -1,4 +1,4 @@
-import os
+import os, shutil
 from template import template
 from zoneinfo import ZoneInfo
 from datetime import datetime
@@ -11,14 +11,17 @@ def artifact(filename, content):
     with open(filename, "w") as f:
         f.write(content)
 
-def podcast():
+def podcast(date, filenameOpus):
     artifact("feed.xml",
              template("feed.xml.jinja")
-             .render({ 'pubdate': datetime.now(tz) }))
+             .render({
+                'filenameOpus': filenameOpus,
+                'pubdate': date }))
 
-def web():
+def web(date, filenameOpus):
     args = {
-        'pubdate': datetime.now(tz),
+        'filenameOpus': filenameOpus,
+        'pubdate': date,
         'prompt': open("prompt.txt").read(),
         'script': open("script.txt").read(),
         'report': open("report.json").read(),
@@ -29,6 +32,12 @@ def web():
              template("index.html.jinja").render(args))
 
 if __name__ == "__main__":
-    podcast()
-    web()
+    date = datetime.now(tz)
+    filebase = "shedfm-daily-%s" % date.strftime("%Y-%m-%d")
+    filenameOpus = "%s.opus" % filebase
+    filenameAac = "%s.aac" % filebase
+    shutil.copyfile("output.opus", filenameOpus)
+    os.system("ffmpeg -y -hide_banner -loglevel error -i output.opus -codec:a aac %s" % filenameAac)
+    podcast(date, filenameOpus)
+    web(date, filenameOpus)
 
