@@ -10,6 +10,8 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      TZ: America/Vancouver
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -23,8 +25,6 @@ jobs:
           WEATHERAPI_KEY: ${{ secrets.WEATHERAPI_KEY }}
           EVENTS_URL: ${{ vars.EVENTS_URL }}
       - run: python publish.py
-        env:
-          TZ: America/Vancouver
       - name: Setup page contents
         run: mkdir -p page && mv index.html feed.xml output.opus page
       - name: Setup Pages
