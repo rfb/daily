@@ -11,16 +11,16 @@ def artifact(filename, content):
     with open(filename, "w") as f:
         f.write(content)
 
-def podcast(date, filenameOpus):
+def podcast(date, filebase):
     artifact("feed.xml",
              template("feed.xml.jinja")
              .render({
-                'filenameOpus': filenameOpus,
+                'filebase': filebase,
                 'pubdate': date }))
 
-def web(date, filenameOpus):
+def web(date, filebase):
     args = {
-        'filenameOpus': filenameOpus,
+        'filebase': filebase,
         'pubdate': date,
         'prompt': open("prompt.txt").read(),
         'script': open("script.txt").read(),
@@ -34,10 +34,8 @@ def web(date, filenameOpus):
 if __name__ == "__main__":
     date = datetime.now(tz)
     filebase = "shedfm-daily-%s" % date.strftime("%Y-%m-%d")
-    filenameOpus = "%s.opus" % filebase
-    filenameAac = "%s.aac" % filebase
-    shutil.copyfile("output.opus", filenameOpus)
-    os.system("ffmpeg -y -hide_banner -loglevel error -i output.opus -codec:a aac %s" % filenameAac)
-    podcast(date, filenameOpus)
-    web(date, filenameOpus)
+    shutil.copyfile("output.opus", "%s.opus" % filebase)
+    os.system("ffmpeg -y -hide_banner -loglevel error -i output.opus -codec:a aac %s.aac" % filebase)
+    podcast(date, filebase)
+    web(date, filebase)
 
