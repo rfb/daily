@@ -3,3 +3,4 @@ dotenv
 requests
 glom
 jinja2
+mutagen
