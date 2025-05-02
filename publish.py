@@ -4,6 +4,8 @@ from zoneinfo import ZoneInfo
 from datetime import datetime
 from dotenv import load_dotenv
 
+OUTPUT_FILE = "output.mp3"
+
 load_dotenv()
 tz = ZoneInfo(os.environ.get("TZ"))
 
@@ -34,8 +36,8 @@ def web(date, filebase):
 if __name__ == "__main__":
     date = datetime.now(tz)
     filebase = "shedfm-daily-%s" % date.strftime("%Y-%m-%d")
-    shutil.copyfile("output.opus", "%s.opus" % filebase)
-    os.system("ffmpeg -y -hide_banner -loglevel error -i output.opus -codec:a aac %s.aac" % filebase)
+    shutil.copyfile(OUTPUT_FILE, "%s.mp3" % filebase)
+    os.system(f"ffmpeg -y -hide_banner -loglevel error -i {OUTPUT_FILE} -codec:a aac {filebase}.aac")
     podcast(date, filebase)
     web(date, filebase)
 

@@ -6,5 +6,5 @@ voicing.txt
 report.json
 index.html
 feed.xml
+*.mp3
 *.aac
-*.opus

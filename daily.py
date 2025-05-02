@@ -6,7 +6,7 @@ from openai import OpenAI
 from weather import fetch_weather
 from events import fetch_events
 from prompts import mkprompt, mkvoicing
-from publish import artifact
+from publish import artifact, OUTPUT_FILE
 
 def main():
     load_dotenv()
@@ -38,8 +38,8 @@ def main():
         model="gpt-4o-mini-tts",
         voice="echo",
         instructions=voicing,
-        response_format="opus",
+        response_format="mp3",
         input=script) as response:
-        response.stream_to_file("output.opus")
+        response.stream_to_file(OUTPUT_FILE)
 
 main()
