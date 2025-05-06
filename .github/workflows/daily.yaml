@@ -27,7 +27,7 @@ jobs:
           EVENTS_URL: ${{ vars.EVENTS_URL }}
       - run: python publish.py
       - name: Setup page contents
-        run: mkdir -p page && mv index.html feed.xml *.mp3 *.aac page
+        run: mkdir -p page && cp index.html feed.xml *.mp3 *.aac page
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Save output
