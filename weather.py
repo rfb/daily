@@ -1,6 +1,6 @@
 import requests, json, os
 
-from glom import glom
+from glom import glom, Coalesce
 
 def fetch_weather():
     weather = requests.get(f'http://api.weatherapi.com/v1/marine.json?key={os.environ.get("WEATHERAPI_KEY")}&q=Skidegate&days=1').json()
@@ -13,7 +13,7 @@ def fetch_weather():
         'precip': ('forecast.forecastday.0.day.totalprecip_mm'),
         'humidity': ('forecast.forecastday.0.day.avghumidity'),
         'summary': ('forecast.forecastday.0.day.condition.text'),
-        'tides': ('forecast.forecastday.0.day.tides.0.tide'),
+        'tides': Coalesce('forecast.forecastday.0.day.tides.0.tide', default=False),
         'astro': ('forecast.forecastday.0.astro'),
     }
 

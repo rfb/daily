@@ -1,15 +1,12 @@
 import os, shutil
-from template import template
-from zoneinfo import ZoneInfo
-from datetime import datetime
-from dotenv import load_dotenv
+
 from mutagen.mp3 import MP3
 from mutagen.easyid3 import EasyID3
 
-OUTPUT_FILE = "output.mp3"
+from template import template
+from today import today
 
-load_dotenv()
-tz = ZoneInfo(os.environ.get("TZ"))
+OUTPUT_FILE = "output.mp3"
 
 def artifact(filename, content):
     with open(filename, "w") as f:
@@ -43,11 +40,9 @@ def tag(filename, date):
     file.save()
 
 if __name__ == "__main__":
-    date = datetime.now(tz)
-    tag(OUTPUT_FILE, date)
-    filebase = "shedfm-daily-%s" % date.strftime("%Y-%m-%d")
+    tag(OUTPUT_FILE, today)
+    filebase = "shedfm-daily-%s" % today.strftime("%Y-%m-%d")
     shutil.copyfile(OUTPUT_FILE, "%s.mp3" % filebase)
     os.system(f"ffmpeg -y -hide_banner -loglevel error -i {OUTPUT_FILE} -codec:a aac {filebase}.aac")
-    podcast(date, filebase)
-    web(date, filebase)
-
+    podcast(today, filebase)
+    web(today, filebase)

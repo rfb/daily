@@ -1,37 +1,30 @@
 import os, json, re
 import requests
 
-from datetime import datetime
-from zoneinfo import ZoneInfo
-from glom import glom, Match, Iter
+from today import today
 
 from dotenv import load_dotenv
 
-import logging
-import http.client
-
 load_dotenv()
-tz = ZoneInfo(os.environ.get("TZ"))
-date = datetime.now(tz)
-
-filename = "shedfm-daily-%s.mp3" % date.strftime("%Y-%m-%d")
 
 API_BASE = os.environ.get("AZURA_API_BASE")
 STATION_ID = os.environ.get("AZURA_STATION_ID")
 API_KEY = os.environ.get("AZURA_API_KEY")
 PLAYLIST_ID = os.environ.get("PLAYLIST_ID")
 
-files = { "file": (filename, open(filename, 'rb'), 'audio/mpeg') }
-headers = { "X-API-Key": API_KEY }
+filename = "shedfm-daily-%s.mp3" % today.strftime("%Y-%m-%d")
 
 print("uploading %s" % filename)
+
+files = { "file": (filename, open(filename, 'rb'), 'audio/mpeg') }
+headers = { "X-API-Key": API_KEY }
 
 requests.post(
     API_BASE + "/station/%s/files/upload" % STATION_ID,
     headers=headers,
     files=files).raise_for_status()
 
-print("searching for daily news files")
+print("requesting list of media files")
 
 response = requests.get(
     API_BASE + "/station/%s/files" % STATION_ID,

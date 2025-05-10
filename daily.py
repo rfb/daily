@@ -7,6 +7,7 @@ from weather import fetch_weather
 from events import fetch_events
 from prompts import mkprompt, mkvoicing
 from publish import artifact, OUTPUT_FILE
+from today import today
 
 def main():
     load_dotenv()
@@ -14,7 +15,10 @@ def main():
     client = OpenAI( api_key=os.environ.get("OPENAI_API_KEY") )
 
     report = fetch_weather()
-    report = report | { 'events': fetch_events() }
+    report = report | {
+        'events': fetch_events(),
+        'day_of_the_week': today.strftime("%A")
+    }
 
     artifact("report.json", json.dumps(report, indent=2))
 
