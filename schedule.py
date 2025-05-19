@@ -10,7 +10,7 @@ load_dotenv()
 API_BASE = os.environ.get("AZURA_API_BASE")
 STATION_ID = os.environ.get("AZURA_STATION_ID")
 API_KEY = os.environ.get("AZURA_API_KEY")
-PLAYLIST_ID = os.environ.get("PLAYLIST_ID")
+PLAYLIST_IDS = os.environ.get("PLAYLIST_IDS").split()
 
 filename = "shedfm-daily-%s.mp3" % today.strftime("%Y-%m-%d")
 
@@ -32,9 +32,10 @@ response = requests.get(
 response.raise_for_status()
 
 records = response.json()
+playlists = list(map(lambda p: { "id": p }, PLAYLIST_IDS))
 
 for rec in filter(lambda rec: re.match("shedfm-daily", rec["path"]), records):
-    payload = {"playlists": [ { "id": PLAYLIST_ID } ] if rec["path"] == filename else []}
+    payload = {"playlists": playlists if rec["path"] == filename else []}
 
     print("setting playlists on %s to %s", (rec["path"], json.dumps(payload)))
 
