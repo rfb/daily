@@ -38,7 +38,7 @@ jobs:
         uses: actions/deploy-pages@v4
       - run: python schedule.py
         env:
-          AZURA_API_BASE: https://platform.haidagwaiiradio.org/api
-          AZURA_STATION_ID: shedfm
-          PLAYLIST_ID: 16
+          AZURA_API_BASE: ${{ vars.AZURA_API_BASE }}
+          AZURA_STATION_ID: ${{ vars.AZURA_STATION_ID }}
+          PLAYLIST_IDS: ${{ vars.PLAYLIST_IDS }}
           AZURA_API_KEY: ${{ secrets.AZURA_API_KEY }}
